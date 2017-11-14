@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>投票+抽奖管理插件(面向对象写法)</title>
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script src="js/arc_vote.js"></script>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<style>
+			.vote {
+				padding: 50px 300px;
+			}
+		</style>
+		<script>
+			$(function() {
+				var arcvoteopts = { //配置项
+					vote_tab_num: 2, //初始选项数量
+					vote_tab_img: true, //选项图文配置		
+					vote_tab_del: true, //选项删除开关
+					vote_draw_num: 3, //初始奖品数量	
+					vote_draw_img: true, //奖品图文配置
+					vote_draw_del: true //选项删除开关
+				};
+				var arcvote = new arc_vote(arcvoteopts);
+				window.arcvote = arcvote;
+				arcvote.init();
+				/*arcvote.vote_tab_img(false,0);//动态图文开关
+				arcvote.vote_tab_img(false,1);//动态图文开关
+				arcvote.vote_tab_del(false,0);//选项删除开关
+				arcvote.vote_tab_del(false,1);//奖品删除开关
+				//arcvote.vote_validate();//选项及奖品验证,如果调用，则直接验证*/
+				$('#vote_tab_Import').click(function(){//批量导入	选项		
+						arcvote.voteImport([{
+						sort:'1',
+						option_title:'投票1',
+						link:'#',
+						icon:'man.jpg'
+					},{
+						sort:'2',
+						option_title:'投票2',
+						link:'#',
+						icon:'woman.jpg'
+					},{
+						sort:'3',
+						option_title:'投票3',
+						link:'#',
+						icon:'man.jpg'
+					}],0)
+				});
+				$('#vote_tab_Importdraw').click(function(){//批量导入奖品		
+					arcvote.voteImport([
+					{
+						 level:'1',prize_name: '1', number: '1', mark_phone: '1', rate: '1', turntable_place: '', icon: 'woman.jpg' 
+					},
+					{
+						 level:'2',prize_name: '2', number: '2', mark_phone: '2', rate: '2', turntable_place: '', icon: 'man.jpg' 
+					},
+					{
+						 level:'3',prize_name: '3', number: '3', mark_phone: '3', rate: '3', turntable_place: '', icon: 'woman.jpg' 
+					}
+					],1)
+				});
+				
+				$('#save').click(function(){
+					var yz = arcvote.vote_validate(0);//选项验证
+					arcvote.vote_validate(1);//奖品验证
+					console.log(yz);
+				});
+			});
+		</script>
+	</head>
+
+	<body class="vote form-horizontal">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default" id="vote_tab_Import">导入选项</button>
+			<button type="button" class="btn btn-default" id="vote_tab_Importdraw">导入奖品</button>
+			<button type="button" class="btn btn-default" id="vote_tab_add">新建选项</button>
+			<button type="button" class="btn btn-default" id="vote_draw_add">新建奖品</button>
+		</div>
+		<br><br>
+		<div id="vote_tab"></div>
+		<br><br>
+		<div id="vote_draw"></div>
+		<button type="button" class="btn btn-warning btn-lg" id="save">保存</button>
+	</body>
+
+</html>
